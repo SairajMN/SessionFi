@@ -32,15 +32,51 @@ The codebase includes:
 - Yellow Custodian: `0x187EDBb934591DF0f078076214e0564DB1c883A4`
 - SessionFi Hook: `0x73c44610f97f2560cD27c53370987B827DB30beA`
 
-## Architecture (High Level)
+## Architecture
 
-```text
-User Intent
-  -> Unified Client (TypeScript)
-    -> Uniswap v4 Hook (Session rules + swaps)
-    -> Yellow Custodian (session custody)
-    -> LI.FI (cross-chain quote/routing)
-    -> Sui Settlement (finality on Sui)
+```mermaid
+graph TD
+    A[User Intent] --> B[Unified Client]
+    B --> C[SessionFi Hook]
+    B --> D[Yellow Network]
+    B --> E[LI.FI Router]
+    B --> F[Sui Settlement]
+
+    C --> G[Same-Chain Swap]
+    D --> H[Session Custody]
+    E --> I[Cross-Chain Quote]
+    F --> J[Finality]
+
+    G --> K[Session State Update]
+    H --> K
+    I --> L[Route Selection]
+    L --> M[Intent Execution]
+    M --> K
+    J --> N[State Finalization]
+    N --> O[Fund Release]
+
+    K --> P[State Hash Update]
+    P --> Q[Session Validation]
+    Q --> R[Next Operation]
+
+    style A fill:#e1f5fe
+    style B fill:#f3e5f5
+    style C fill:#e8f5e8
+    style D fill:#fff3e0
+    style E fill:#fce4ec
+    style F fill:#e0f2f1
+    style G fill:#c8e6c9
+    style H fill:#fff59d
+    style I fill:#f8bbd0
+    style J fill:#b2ebf2
+    style K fill:#dcedc8
+    style L fill:#fff59d
+    style M fill:#f8bbd0
+    style N fill:#b2ebf2
+    style O fill:#c8e6c9
+    style P fill:#dcedc8
+    style Q fill:#e8f5e8
+    style R fill:#f3e5f5
 ```
 
 ## How It Works (Deep Workflow)
@@ -700,8 +736,6 @@ const client: SessionFiClient = createSessionFiClient(
   process.env.PRIVATE_KEY!,
   process.env.SEPOLIA_RPC_URL,
 );
-// eslint-disable-next-line stylelint
-
 // 1) Create a Hook session
 const { sessionId } = await client.createHookSession(3600);
 
@@ -779,5 +813,57 @@ npm run test:contracts
 npm run deploy:hook
 ```
 
+## Beginner-Friendly Project Overview
 
----
+### What is SessionFi?
+
+SessionFi is a **DeFi protocol** that lets you swap tokens and manage liquidity without paying gas fees for every transaction. It's like having a "shopping cart" for DeFi where you can add multiple swaps and execute them all at once.
+
+### Key Concepts Explained Simply
+
+**Session**: A temporary "wallet" where you can deposit tokens and execute multiple swaps without paying gas each time.
+
+**Intent**: Your plan for what you want to do (like "swap 1 ETH for USDC").
+
+**Gasless**: You don't pay Ethereum gas fees for each swap - the protocol handles it.
+
+**Cross-Chain**: You can swap tokens between different blockchains (like Ethereum to Polygon).
+
+### How It Works - Step by Step
+
+1. **Create a Session**: You start a temporary session where you can do multiple swaps
+2. **Deposit Tokens**: Add the tokens you want to swap into your session
+3. **Create Intents**: Tell the protocol what swaps you want to make
+4. **Execute Swaps**: The protocol executes your swaps automatically
+5. **Settlement**: Your tokens are moved to their new locations
+
+### The Technology Behind It
+
+**Uniswap v4 Hooks**: Smart contracts that enforce your swap rules
+**Yellow Network**: Handles custody of your tokens off-chain
+**LI.FI**: Finds the best routes for cross-chain swaps
+**Sui**: Provides fast settlement for your transactions
+
+### Why This Matters
+
+- **Saves Money**: No gas fees for each individual swap
+- **Faster**: Executes multiple swaps in one go
+- **Safer**: All swaps happen within a secure session
+- **Cross-Chain**: Works across different blockchains
+
+### Getting Started
+
+1. **Install**: `npm install`
+2. **Run**: `npm run dev`
+3. **Connect**: Open your browser to `http://localhost:3000`
+4. **Use**: Connect your wallet and start swapping!
+
+### What You Can Do
+
+- Swap tokens without paying gas fees
+- Execute multiple swaps in one session
+- Swap between different blockchains
+- Manage liquidity positions
+- Test with the demo interface
+
+This project is perfect for beginners who want to understand how modern DeFi protocols work and how they can save money on gas fees while getting better execution for their trades.
