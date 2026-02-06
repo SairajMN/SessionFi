@@ -689,22 +689,6 @@ async function runDemo() {
 - **Linting**: ESLint with custom rules
 - **Testing**: Jest for unit and integration tests
 
-### Pull Request Process
-
-1. Fork the repository
-2. Create feature branch
-3. Implement changes with tests
-4. Submit pull request for review
-5. Address feedback and merge
-
-## License
-
-MIT License — see `LICENSE` for details.
-
----
-
-Built for ETHGlobal Bangkok 2024
-
 ## Unified Client (TypeScript)
 
 The unified client connects the hook, LI.FI, and Yellow Network into a single API.
