@@ -30,7 +30,9 @@ node_modules
 
 # Environment files
 .env
-.env.*
+.env.local
+.env.*.local
+!.env.example
 
 # OS / Editor
 .DS_Store
@@ -45,3 +47,17 @@ Thumbs.db
 
 # Local history
 .history
+
+# Foundry / Solidity
+contracts/cache
+contracts/out
+contracts/broadcast
+contracts/lib
+*.abi
+*.bin
+
+# Hardhat (if used)
+artifacts
+cache
+typechain
+typechain-types

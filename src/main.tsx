@@ -6,7 +6,17 @@
 
 import React from "react";
 import ReactDOM from "react-dom/client";
-import App from "./AMMApp";
+import { Buffer } from "buffer";
+
+// Provide Buffer in browsers for libs that expect the Node global
+if (!(globalThis as any).Buffer) {
+  (globalThis as any).Buffer = Buffer;
+}
+// Choose which app to render:
+// - IntegratedApp: Real deployed contracts (requires wallet)
+// - AMMApp: Mock/demo mode (no wallet needed)
+import App from "./IntegratedApp";
+// import App from "./AMMApp"; // Uncomment for demo mode
 
 // Global styles
 const globalStyles = `
